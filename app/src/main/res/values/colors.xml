@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="appcolor">#87A6F1</color>
+    <color name="pinkcolor">#298CF4</color>
+
+    <color name="colorPrimary">#fff</color>
+    <color name="colorPrimaryDark">#2661FA</color>
+    <color name="colorAccent">#CBDAEC</color>
+
+    <!--colros for card-->
+    <color name="whiteCardColor">#fff</color>
+</resources>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/login1_bk"
+    tools:context=".ui.gallery.BmiFragment">
+
+    <TextView
+        android:id="@+id/text_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bmi_calculator"
+        android:textColor="@color/pinkcolor"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="right"
+        android:src="@drawable/bmichart" />
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/appcolor"
+        android:layout_marginTop="0dp"
+        android:layout_height="2dp" />
+    <ImageView
+        android:layout_width="131dp"
+        android:layout_height="90dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/bmi" />
+
+    <EditText
+        android:id="@+id/weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/icons"
+        android:hint="@string/your_weight_in_kg"
+        android:layout_marginTop="40dp"
+        android:inputType="numberDecimal"
+        android:drawablePadding="5dp"
+        android:textColor="@color/pinkcolor"
+        android:layout_marginStart="5dp"
+        android:maxLines="1" />
+
+    <EditText
+        android:id="@+id/height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:inputType="numberDecimal"
+        android:drawableLeft="@drawable/icons"
+        android:drawablePadding="5dp"
+        android:hint="@string/your_height_in_meter"
+        android:textColor="@color/pinkcolor"
+        android:layout_marginTop="20dp"
+        android:maxLines="1" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="5dp"
+        app:cardCornerRadius="34dp">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/BMICalculate"
+            android:text="@string/calculate"
+            android:backgroundTint="@color/white"
+            android:layout_gravity="right"
+            android:textColor="@color/pinkcolor"/>
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bmi"
+            android:textColor="@color/white"
+            android:layout_marginStart="5dp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text=".0"
+            android:textAlignment="center"
+            android:textColor="@color/pinkcolor"
+            android:textSize="20sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="kg/mSq"
+            android:textAlignment="center"
+            android:textColor="@color/pinkcolor"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/Showtext"
+        android:layout_height="wrap_content"
+        android:textColor="@color/pinkcolor"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:textSize="15sp"
+        android:text="@string/healthy_bmi_is_18_bmi_25" />
+
+
+
+
+</LinearLayout>

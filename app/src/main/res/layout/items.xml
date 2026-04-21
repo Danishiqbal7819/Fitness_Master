@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+        android:id="@+id/label"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:backgroundTint="#BE87A6F1"
+        android:gravity="center|left"
+        android:textStyle="italic"
+        android:drawableLeft="@drawable/icons"
+        android:drawableTint="@color/white"
+        android:padding="12dp"
+        android:drawablePadding="12dp"
+        android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+        android:layout_marginTop="26dp"
+        android:text="hello"
+        android:textColor="@color/white"
+        android:textSize="35dp">
+
+
+    </TextView>
