@@ -3,9 +3,12 @@ package com.example.fitnessmaster;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -16,13 +19,31 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static final int SPLASH_TIME_OUT = 5000;
+    private static final int SPLASH_TIME_OUT = 2200;
     //Hooks
-    View first,second,third,fourth,fifth,sixth;
     TextView a, slogan;
+    TextView subtitle, pill;
+    ImageView brandIcon;
     //Animations
     Animation topAnimantion,bottomAnimation,middleAnimation;
     SharedPreferences sharedPreferences;
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final Runnable navigateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            isLogin = sharedPreferences.getBoolean("isLogin",false);
+            if(isLogin){
+                Intent intent=new Intent(SplashActivity.this, DashboardActivity.class);
+                finishAffinity();
+                startActivity(intent);
+            }
+            else {
+                Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
+                finishAffinity();
+                startActivity(intent);
+            }
+        }
+    };
 
     private boolean isLogin=false;
     @Override
@@ -38,49 +59,27 @@ public class SplashActivity extends AppCompatActivity {
         sharedPreferences=getSharedPreferences("Login",MODE_PRIVATE);
 
 
-        first = findViewById(R.id.first_line);
-        second = findViewById(R.id.second_line);
-        third = findViewById(R.id.third_line);
-        fourth = findViewById(R.id.fourth_line);
-        fifth = findViewById(R.id.fifth_line);
-        sixth = findViewById(R.id.sixth_line);
         a = findViewById(R.id.a);
         slogan = findViewById(R.id.tagLine);
+        subtitle = findViewById(R.id.splashSubtitle);
+        pill = findViewById(R.id.splashPill);
+        brandIcon = findViewById(R.id.brandIcon);
         //Animation Calls
         topAnimantion = AnimationUtils.loadAnimation(this, R.anim.topanimation);
         bottomAnimation = AnimationUtils.loadAnimation(this, R.anim.bottomanimation);
         middleAnimation = AnimationUtils.loadAnimation(this, R.anim.middleanimation);
         //-----------Setting Animations to the elements of Splash Screen-------- -
-                first.setAnimation(topAnimantion);
-        second.setAnimation(topAnimantion);
-        third.setAnimation(topAnimantion);
-        fourth.setAnimation(topAnimantion);
-        fifth.setAnimation(topAnimantion);
-        sixth.setAnimation(topAnimantion);
+        brandIcon.setAnimation(topAnimantion);
         a.setAnimation(middleAnimation);
         slogan.setAnimation(bottomAnimation);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        subtitle.setAnimation(bottomAnimation);
+        pill.setAnimation(bottomAnimation);
+        handler.postDelayed(navigateRunnable, SPLASH_TIME_OUT);
+    }
 
-                try {
-                    Thread.sleep(2000);
-                   isLogin = sharedPreferences.getBoolean("isLogin",false);
-                    if(isLogin){
-                        Intent intent=new Intent(SplashActivity.this, DashboardActivity.class);
-                        finishAffinity();
-                        startActivity(intent);
-                    }
-                    else {
-                       Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
-                       finishAffinity();
-                        startActivity(intent);
-                    }
-                }
-                catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }).start();
+    @Override
+    protected void onDestroy() {
+        handler.removeCallbacks(navigateRunnable);
+        super.onDestroy();
     }
 }

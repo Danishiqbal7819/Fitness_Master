@@ -1,6 +1,7 @@
 package com.example.fitnessmaster;
 
 public class vendor1 {
+   public String id;
    public String name;
     public String age;
 
@@ -15,12 +16,20 @@ public class vendor1 {
         return name;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getAge() {
         return age;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setAge(String age) {
@@ -35,6 +44,12 @@ public class vendor1 {
         return url;
     }
     public vendor1(String name, String age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public vendor1(String id, String name, String age) {
+        this.id = id;
         this.name = name;
         this.age = age;
     }

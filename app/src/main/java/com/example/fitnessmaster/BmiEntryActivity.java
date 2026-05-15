@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,7 +21,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -39,18 +39,14 @@ public class BmiEntryActivity extends AppCompatActivity{
     private Button show_data,calculate_BMI;
     private Toolbar toolbar;
     private Button log_out;
-    private TextView name;
+    private EditText name;
     private EditText age;
     private TextView BMI_CAL;
+    private TextView resultCategory;
+    private TextView resultInsight;
     private EditText height,weight;
     private ProgressBar progressBar;
-    CardView card;
-    float weight1;
-    float height1;
-    float result1;
-    private boolean isLogin;
-   private SharedPreferences sharedPreferences;
-private  FirebaseDatabase firebaseDatabase;
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -74,60 +70,22 @@ private  FirebaseDatabase firebaseDatabase;
         weight=findViewById(R.id.weight);
         height=findViewById(R.id.height);
         calculate_BMI=findViewById(R.id.cal);
-        card=findViewById(R.id .card);
         progressBar=findViewById(R.id.progress);
         toolbar=findViewById(R.id.toolbar);
+        resultCategory = findViewById(R.id.resultCategory);
+        resultInsight = findViewById(R.id.resultInsight);
 
-        log_out.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Logout();
-            }
-        });
+        log_out.setOnClickListener(v -> Logout());
 
-        BMI_CAL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-
-                    card.setVisibility(View.VISIBLE);
-                    calculate_BMI.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String a=weight.getText().toString();
-                            String b=height.getText().toString();
-                            try {
-                                weight1=  getFloatFrom(a);
-                                height1=  getFloatFrom(b);
-
-                            }
-                            catch(Exception e){
-                                Toast.makeText(BmiEntryActivity.this,""+e,Toast.LENGTH_SHORT).show();
-                            }
-                            Toast.makeText(BmiEntryActivity.this,"click",Toast.LENGTH_SHORT).show();
-
-                            try {
-                                result1=(float)(weight1 /(height1*height1));
-                                age.setText((String.valueOf(result1)));
-
-                            }
-                            catch (Exception e){
-                                Toast.makeText(BmiEntryActivity.this,""+e,Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
-                catch (Exception e){
-                    Toast.makeText(BmiEntryActivity.this,""+e,Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
+        BMI_CAL.setOnClickListener(v -> weight.requestFocus());
+        calculate_BMI.setOnClickListener(v -> calculateBmi());
         Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (name.getText().toString().equals("")||age.getText().toString().equals("")){
-                    Toast.makeText(BmiEntryActivity.this,"Empty",Toast.LENGTH_SHORT).show();
+                String date = name.getText().toString().trim();
+                String bmi = age.getText().toString().trim();
+                if (TextUtils.isEmpty(date) || TextUtils.isEmpty(bmi)){
+                    Toast.makeText(BmiEntryActivity.this,"Select a date and calculate or enter BMI first.",Toast.LENGTH_SHORT).show();
                 }
 
                 else {
@@ -136,14 +94,15 @@ private  FirebaseDatabase firebaseDatabase;
                 progressBar.setVisibility(View.VISIBLE);
                 HashMap<String,Object> hashMap=new HashMap<String, Object>();
 
-                hashMap.put("name",name.getText().toString());
-                hashMap.put("age",age.getText().toString());
+                hashMap.put("name", date);
+                hashMap.put("age", bmi);
               FirebaseDatabase.getInstance().getReference().child("vendor1").push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                   @Override
                   public void onComplete(@NonNull Task<Void> task) {
                       if(task.isSuccessful()){
                           progressBar.setVisibility(View.GONE);
                           Toast.makeText(BmiEntryActivity.this,"Succesfully added",Toast.LENGTH_SHORT).show();
+                          clearEntryForm();
                       }
                       else {
                           progressBar.setVisibility(View.GONE);
@@ -199,8 +158,56 @@ private  FirebaseDatabase firebaseDatabase;
             }
         });
     }
-    float getFloatFrom(String txt){
-        return Float.parseFloat(txt);
+
+    private void calculateBmi() {
+        String weightText = weight.getText().toString().trim();
+        String heightText = height.getText().toString().trim();
+
+        if (TextUtils.isEmpty(weightText) || TextUtils.isEmpty(heightText)) {
+            Toast.makeText(this, "Enter weight and height to calculate BMI.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            float weightValue = Float.parseFloat(weightText);
+            float heightValue = Float.parseFloat(heightText);
+            if (weightValue <= 0 || heightValue <= 0) {
+                Toast.makeText(this, "Weight and height must be greater than zero.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            float bmiValue = weightValue / (heightValue * heightValue);
+            String bmiText = String.format(Locale.getDefault(), "%.2f", bmiValue);
+            age.setText(bmiText);
+            updateResultState(bmiValue);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Enter valid numeric values for weight and height.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateResultState(float bmiValue) {
+        if (bmiValue < 18.5f) {
+            resultCategory.setText("Underweight");
+            resultInsight.setText("A nutritious calorie surplus and strength work may help you move toward a healthier range.");
+        } else if (bmiValue < 25f) {
+            resultCategory.setText("Healthy Range");
+            resultInsight.setText("Great balance. Keep supporting it with regular training, sleep, and steady nutrition.");
+        } else if (bmiValue < 30f) {
+            resultCategory.setText("Overweight");
+            resultInsight.setText("A small calorie deficit, consistent walks, and regular workouts can help improve this trend.");
+        } else {
+            resultCategory.setText("Obese Range");
+            resultInsight.setText("Consider gradual lifestyle changes and professional guidance if you want a safer long-term plan.");
+        }
+    }
+
+    private void clearEntryForm() {
+        name.setText("");
+        age.setText("");
+        weight.setText("");
+        height.setText("");
+        resultCategory.setText("Your category will appear here");
+        resultInsight.setText("Healthy BMI range is usually between 18.5 and 24.9.");
     }
 
     private void Logout() {

@@ -1,15 +1,16 @@
 package com.example.fitnessmaster;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
@@ -24,11 +25,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class BmiHistoryActivity extends AppCompatActivity {
-    private  Button data;
     private ListView list;
-    FirebaseDatabase firebaseDatabase;
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
     private Toolbar toolbar;
+    private TextView totalEntries;
+    private TextView latestEntry;
+    private TextView historyEmpty;
+    private ArrayList<vendor1> arrayList;
+    private BmiHistoryAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,28 +47,28 @@ public class BmiHistoryActivity extends AppCompatActivity {
         list = findViewById(R.id.list);
         progressBar=findViewById(R.id.progress);
         toolbar=findViewById(R.id.toolbar);
+        totalEntries = findViewById(R.id.totalEntries);
+        latestEntry = findViewById(R.id.latestEntry);
+        historyEmpty = findViewById(R.id.historyEmpty);
 
         progressBar.setVisibility(View.VISIBLE);
-        ArrayList<String> arrayList = new ArrayList<String>();
-        ArrayAdapter adapter = new ArrayAdapter<String>(BmiHistoryActivity.this, R.layout.items, arrayList);
+        arrayList = new ArrayList<>();
+        adapter = new BmiHistoryAdapter(BmiHistoryActivity.this, arrayList, this::confirmDeleteEntry);
         list.setAdapter(adapter);
-        firebaseDatabase.getInstance().getReference().child("vendor1").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("vendor1").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                arrayList.clear();
                 if (snapshot.exists()) {
-                    arrayList.clear();
                     for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-
+                        String id = snapshot1.getKey();
                         String name = snapshot1.child("name").getValue(String.class);
                         String age = snapshot1.child("age").getValue(String.class);
-                        vendor1 i = new vendor1(name, age);
-                        String t = "Date :" + i.getName() + "\nBMI :" + i.getAge();
-                        arrayList.add(t);
+                        arrayList.add(0, new vendor1(id, name, age));
                     }
-                    adapter.notifyDataSetChanged();
-
                 }
+                adapter.notifyDataSetChanged();
+                updateSummary(arrayList);
                 progressBar.setVisibility(View.GONE);
             }
 
@@ -83,6 +87,51 @@ public class BmiHistoryActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void updateSummary(ArrayList<vendor1> entries) {
+        totalEntries.setText(String.valueOf(entries.size()));
+        if (entries.isEmpty()) {
+            latestEntry.setText("--");
+            historyEmpty.setVisibility(View.VISIBLE);
+            list.setVisibility(View.GONE);
+            return;
+        }
+
+        historyEmpty.setVisibility(View.GONE);
+        list.setVisibility(View.VISIBLE);
+        latestEntry.setText(entries.get(0).getAge());
+    }
+
+    private void confirmDeleteEntry(vendor1 entry) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete BMI Entry");
+        builder.setMessage("Delete the BMI entry saved for " + entry.getName() + "?");
+        builder.setPositiveButton("Delete", (DialogInterface.OnClickListener) (dialog, which) -> deleteEntry(entry));
+        builder.setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss());
+        builder.show();
+    }
+
+    private void deleteEntry(vendor1 entry) {
+        if (entry.getId() == null || entry.getId().trim().isEmpty()) {
+            Toast.makeText(this, "Unable to delete this entry.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+        FirebaseDatabase.getInstance()
+                .getReference()
+                .child("vendor1")
+                .child(entry.getId())
+                .removeValue()
+                .addOnCompleteListener(task -> {
+                    progressBar.setVisibility(View.GONE);
+                    if (task.isSuccessful()) {
+                        Toast.makeText(BmiHistoryActivity.this, "BMI entry deleted.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(BmiHistoryActivity.this, "Failed to delete entry.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     }

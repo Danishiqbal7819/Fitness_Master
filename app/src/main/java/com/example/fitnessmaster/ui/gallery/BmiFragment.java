@@ -1,6 +1,7 @@
 package com.example.fitnessmaster.ui.gallery;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +15,14 @@ import androidx.fragment.app.Fragment;
 
 import com.example.fitnessmaster.R;
 
+import java.util.Locale;
+
 public class BmiFragment extends Fragment {
 private Button BMICalculate;
 private EditText weight;
 private EditText height;
 private TextView result;
 private TextView showtext;
-float weight1;
-float height1;
-float result1;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bmi, container, false);
@@ -44,33 +44,38 @@ float result1;
         BMICalculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String a=weight.getText().toString();
-                String b=height.getText().toString();
-                try {
-                    weight1=  getFloatFrom(a);
-                    height1=  getFloatFrom(b);
-
-                }
-                catch(Exception e){
-                    Toast.makeText(getContext(),""+e,Toast.LENGTH_SHORT).show();
+                String weightText = weight.getText().toString().trim();
+                String heightText = height.getText().toString().trim();
+                if (TextUtils.isEmpty(weightText) || TextUtils.isEmpty(heightText)) {
+                    Toast.makeText(getContext(),"Enter weight and height first.",Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                     try {
-                        result1=(float)(weight1 /(height1*height1));
-                        result.setText((String.valueOf(result1)));
-                        if (result1>18&&result1<25){
-                            showtext.setText("your BMI is Normal");
+                        float weightValue = getFloatFrom(weightText);
+                        float heightValue = getFloatFrom(heightText);
+                        if (weightValue <= 0 || heightValue <= 0) {
+                            Toast.makeText(getContext(),"Weight and height must be greater than zero.",Toast.LENGTH_SHORT).show();
+                            return;
                         }
-                        else if (result1>25){
-                            showtext.setText("You are considerred as obese\nUse our fitness app to reduce your weight");
+
+                        float resultValue=(float)(weightValue /(heightValue*heightValue));
+                        result.setText(String.format(Locale.getDefault(),"%.2f", resultValue));
+                        if (resultValue < 18.5f){
+                            showtext.setText("Underweight range. Add balanced meals and strength work to build healthier momentum.");
+                        }
+                        else if (resultValue < 25f){
+                            showtext.setText("Healthy range. Keep up the consistency with movement, nutrition, and sleep.");
+                        }
+                        else if (resultValue < 30f){
+                            showtext.setText("Overweight range. Regular workouts and a small calorie deficit can help improve this.");
                         }
                         else {
-                            showtext.setText("you are under weight");
+                            showtext.setText("Obese range. Start with sustainable activity and consider expert guidance for a safer plan.");
                         }
                     }
                     catch (Exception e){
-                        Toast.makeText(getContext(),""+e,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"Enter valid numeric values.",Toast.LENGTH_SHORT).show();
                     }
             }
         });
