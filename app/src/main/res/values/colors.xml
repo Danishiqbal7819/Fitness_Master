@@ -2,8 +2,23 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="appcolor">#87A6F1</color>
-    <color name="pinkcolor">#298CF4</color>
+    <color name="appcolor">#FF4B5D</color>
+    <color name="pinkcolor">#FFF3F6</color>
+    <color name="fitness_navy">#111827</color>
+    <color name="fitness_surface">#162033</color>
+    <color name="fitness_surface_alt">#1F2C44</color>
+    <color name="fitness_surface_soft">#243554</color>
+    <color name="fitness_accent">#FF7A59</color>
+    <color name="fitness_accent_dark">#E94E3C</color>
+    <color name="fitness_gold">#F6C453</color>
+    <color name="fitness_text_primary">#FFF8F5</color>
+    <color name="fitness_text_secondary">#C7D2E3</color>
+    <color name="fitness_text_muted">#93A4BC</color>
+    <color name="fitness_chip">#33FFFFFF</color>
+    <color name="fitness_chip_strong">#40FF7A59</color>
+    <color name="fitness_row">#22314C</color>
+    <color name="fitness_row_border">#33506E96</color>
+    <color name="fitness_success">#31C48D</color>
 
     <color name="colorPrimary">#fff</color>
     <color name="colorPrimaryDark">#2661FA</color>

@@ -7,27 +7,27 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.firebase.ui.home.HomeFragment"
+        android:name="com.example.fitnessmaster.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.firebase.ui.gallery.BmiFragment"
+        android:name="com.example.fitnessmaster.ui.gallery.BmiFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_bmi" />
     <fragment
         android:id="@+id/nav_Quotes"
-        android:name="com.example.firebase.ui.quotes.QuoteFragment"
+        android:name="com.example.fitnessmaster.ui.quotes.QuoteFragment"
         android:label="@string/Quotes"
         tools:layout="@layout/fragment_quote" />
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.firebase.ui.slideshow.LogoutFragment"
+        android:name="com.example.fitnessmaster.ui.slideshow.LogoutFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_logout"/>
     <activity
         android:id="@+id/nav_exercise"
-        android:name="com.example.firebase.Register"
+        android:name="com.example.fitnessmaster.Register"
         android:label="@string/Sign_Up"
         tools:layout="@layout/register"/>
 </navigation>

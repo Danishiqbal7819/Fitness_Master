@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.firebase'
+    namespace 'com.example.fitnessmaster'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.firebase"
+        applicationId "com.example.fitnessmaster"
         minSdk 24
         targetSdk 33
         versionCode 1

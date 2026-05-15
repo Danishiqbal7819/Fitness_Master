@@ -13,26 +13,22 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Firebase"
+        android:theme="@style/Theme.FitnessMaster"
         tools:targetApi="31">
         <activity
-            android:name=".Showimages"
-            android:exported="true"/>
-
-        <activity
-            android:name=".MainActivity5"
+            android:name=".WorkoutSessionActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity4"
+            android:name=".ExerciseListActivity"
             android:exported="true" />
         <activity
             android:name=".ExerciseHome.FitnessActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity3"
+            android:name=".DashboardActivity"
             android:exported="false"
             android:label="@string/title_activity_main3"
-            android:theme="@style/Theme.Firebase.NoActionBar" />
+            android:theme="@style/Theme.FitnessMaster.NoActionBar" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -44,10 +40,10 @@
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".BmiHistoryActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity2"
+            android:name=".BmiEntryActivity"
             android:exported="true" />
         <activity
             android:name=".LoginActivity"

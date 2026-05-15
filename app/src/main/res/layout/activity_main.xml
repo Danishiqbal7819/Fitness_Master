@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@drawable/login1_bk"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".BmiHistoryActivity">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:background="@color/appcolor"

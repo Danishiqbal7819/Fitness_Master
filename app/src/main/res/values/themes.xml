@@ -1,21 +1,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Firebase" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.FitnessMaster" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/fitness_accent</item>
+        <item name="colorPrimaryContainer">@color/fitness_surface_soft</item>
+        <item name="colorSecondary">@color/fitness_gold</item>
+        <item name="android:statusBarColor">@color/fitness_navy</item>
+        <item name="android:navigationBarColor">@color/fitness_navy</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
-    <style name="Theme.Firebase" parent="Base.Theme.Firebase" />
+    <style name="Theme.FitnessMaster" parent="Base.Theme.FitnessMaster" />
 
-    <style name="Theme.Firebase.NoActionBar">
+    <style name="Theme.FitnessMaster.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
     <item name="colorAccent">@color/appcolor</item>
 </style>
-    <style name="Theme.Firebase.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.FitnessMaster.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.Firebase.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.FitnessMaster.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
