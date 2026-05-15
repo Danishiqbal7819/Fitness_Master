@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -25,14 +24,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
+import java.util.concurrent.Executors;
 
 public class BmiEntryActivity extends AppCompatActivity{
     private Button Save;
@@ -89,27 +84,61 @@ public class BmiEntryActivity extends AppCompatActivity{
                 }
 
                 else {
+                        progressBar.setVisibility(View.VISIBLE);
+
+                        Executors.newSingleThreadExecutor().execute(() -> {
+
+                            try {
+                                BmiDao db = AppDatabase.getInstance(BmiEntryActivity.this).bmiDao();
+
+                                BmiEntry bmiEntry = new BmiEntry(date, bmi);
+
+                                long result = db.insert(bmiEntry);
+
+                                if (result > 0) {
+                                    runOnUiThread(() -> {
+                                        progressBar.setVisibility(View.GONE);
+                                        Toast.makeText(BmiEntryActivity.this,
+                                                "Data saved to local database",
+                                                Toast.LENGTH_SHORT).show();
+                                    });
+                                } else {
+                                    Toast.makeText(BmiEntryActivity.this,
+                                            "Failed",
+                                            Toast.LENGTH_SHORT).show();
+                                    // Failed
+                                }
 
 
-                progressBar.setVisibility(View.VISIBLE);
-                HashMap<String,Object> hashMap=new HashMap<String, Object>();
+                            } catch (Exception e) {
 
-                hashMap.put("bmidate", date);
-                hashMap.put("bmivalue", bmi);
-              FirebaseDatabase.getInstance().getReference().child("vendor1").push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                  @Override
-                  public void onComplete(@NonNull Task<Void> task) {
-                      if(task.isSuccessful()){
-                          progressBar.setVisibility(View.GONE);
-                          Toast.makeText(BmiEntryActivity.this,"Succesfully added",Toast.LENGTH_SHORT).show();
-                          clearEntryForm();
-                      }
-                      else {
-                          progressBar.setVisibility(View.GONE);
-                          Toast.makeText(BmiEntryActivity.this,"Check network connection",Toast.LENGTH_SHORT).show();
-                      }
-                  }
-              });
+                                runOnUiThread(() -> {
+                                    progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(BmiEntryActivity.this,
+                                            "Failed",
+                                            Toast.LENGTH_SHORT).show();
+                                });
+                            }
+                        });
+
+//                HashMap<String,Object> hashMap=new HashMap<String, Object>();
+//
+//                hashMap.put("bmidate", date);
+//                hashMap.put("bmivalue", bmi);
+//              FirebaseDatabase.getInstance().getReference().child("vendor1").push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                  @Override
+//                  public void onComplete(@NonNull Task<Void> task) {
+//                      if(task.isSuccessful()){
+//                          progressBar.setVisibility(View.GONE);
+//                          Toast.makeText(BmiEntryActivity.this,"Succesfully added",Toast.LENGTH_SHORT).show();
+//                          clearEntryForm();
+//                      }
+//                      else {
+//                          progressBar.setVisibility(View.GONE);
+//                          Toast.makeText(BmiEntryActivity.this,"Check network connection",Toast.LENGTH_SHORT).show();
+//                      }
+//                  }
+//              });
             }
         } });
         show_data.setOnClickListener(new View.OnClickListener() {
