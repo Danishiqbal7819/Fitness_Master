@@ -2,8 +2,8 @@ package com.example.fitnessmaster;
 
 public class vendor1 {
    public String id;
-   public String name;
-    public String age;
+   public String date;
+    public String bmi;
 
     public String url;
 
@@ -12,28 +12,28 @@ public class vendor1 {
 
     }
 
-    public String getName() {
-        return name;
+    public String getdate() {
+        return date;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getAge() {
-        return age;
+    public String getbmi() {
+        return bmi;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setdate(String date) {
+        this.date = date;
     }
 
     public void setId(String id) {
         this.id = id;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+    public void setbmi(String bmi) {
+        this.bmi = bmi;
     }
 
     public void seturl(String url) {
@@ -43,15 +43,15 @@ public class vendor1 {
     public String geturl() {
         return url;
     }
-    public vendor1(String name, String age) {
-        this.name = name;
-        this.age = age;
+    public vendor1(String date, String bmi) {
+        this.date = date;
+        this.bmi = bmi;
     }
 
-    public vendor1(String id, String name, String age) {
+    public vendor1(String id, String date, String bmi) {
         this.id = id;
-        this.name = name;
-        this.age = age;
+        this.date = date;
+        this.bmi = bmi;
     }
 
     public vendor1(String url){

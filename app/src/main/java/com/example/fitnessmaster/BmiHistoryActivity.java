@@ -62,9 +62,9 @@ public class BmiHistoryActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                         String id = snapshot1.getKey();
-                        String name = snapshot1.child("name").getValue(String.class);
-                        String age = snapshot1.child("age").getValue(String.class);
-                        arrayList.add(0, new vendor1(id, name, age));
+                        String date = snapshot1.child("bmidate").getValue(String.class);
+                        String bmi = snapshot1.child("bmivalue").getValue(String.class);
+                        arrayList.add(0, new vendor1(id, date, bmi));
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -100,13 +100,13 @@ public class BmiHistoryActivity extends AppCompatActivity {
 
         historyEmpty.setVisibility(View.GONE);
         list.setVisibility(View.VISIBLE);
-        latestEntry.setText(entries.get(0).getAge());
+        latestEntry.setText(entries.get(0).getbmi());
     }
 
     private void confirmDeleteEntry(vendor1 entry) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete BMI Entry");
-        builder.setMessage("Delete the BMI entry saved for " + entry.getName() + "?");
+        builder.setMessage("Delete the BMI entry saved for " + entry.getdate() + "?");
         builder.setPositiveButton("Delete", (DialogInterface.OnClickListener) (dialog, which) -> deleteEntry(entry));
         builder.setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, which) -> dialog.dismiss());
         builder.show();

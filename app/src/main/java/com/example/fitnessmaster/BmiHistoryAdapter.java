@@ -54,9 +54,9 @@ public class BmiHistoryAdapter extends BaseAdapter {
         TextView statusView = view.findViewById(R.id.historyStatus);
         Button deleteButton = view.findViewById(R.id.deleteEntry);
 
-        dateView.setText(item.getName());
-        valueView.setText(String.format(Locale.getDefault(), "BMI %s", item.getAge()));
-        statusView.setText(getCategoryText(item.getAge()));
+        dateView.setText(item.getdate());
+        valueView.setText(String.format(Locale.getDefault(), "BMI %s", item.getbmi()));
+        statusView.setText(getCategoryText(item.getbmi()));
         deleteButton.setOnClickListener(v -> onDeleteClickListener.onDelete(item));
         return view;
     }

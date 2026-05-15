@@ -2,7 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="appcolor">#FF4B5D</color>
+    <color name="appcolor">#243554</color>
     <color name="pinkcolor">#FFF3F6</color>
     <color name="fitness_navy">#111827</color>
     <color name="fitness_surface">#162033</color>

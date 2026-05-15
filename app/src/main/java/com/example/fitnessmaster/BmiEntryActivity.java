@@ -39,8 +39,8 @@ public class BmiEntryActivity extends AppCompatActivity{
     private Button show_data,calculate_BMI;
     private Toolbar toolbar;
     private Button log_out;
-    private EditText name;
-    private EditText age;
+    private EditText bmidate;
+    private EditText bmivalue;
     private TextView BMI_CAL;
     private TextView resultCategory;
     private TextView resultInsight;
@@ -62,8 +62,8 @@ public class BmiEntryActivity extends AppCompatActivity{
 
 
         Save=findViewById(R.id.save);
-        name=findViewById(R.id.name);
-        age=findViewById(R.id.age);
+        bmidate=findViewById(R.id.bmidate);
+        bmivalue=findViewById(R.id.bmivalue);
         show_data=findViewById(R.id.show_data);
         log_out=findViewById(R.id.log_out);
         BMI_CAL=findViewById(R.id.BMI_CAL);
@@ -82,8 +82,8 @@ public class BmiEntryActivity extends AppCompatActivity{
         Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String date = name.getText().toString().trim();
-                String bmi = age.getText().toString().trim();
+                String date = bmidate.getText().toString().trim();
+                String bmi = bmivalue.getText().toString().trim();
                 if (TextUtils.isEmpty(date) || TextUtils.isEmpty(bmi)){
                     Toast.makeText(BmiEntryActivity.this,"Select a date and calculate or enter BMI first.",Toast.LENGTH_SHORT).show();
                 }
@@ -94,8 +94,8 @@ public class BmiEntryActivity extends AppCompatActivity{
                 progressBar.setVisibility(View.VISIBLE);
                 HashMap<String,Object> hashMap=new HashMap<String, Object>();
 
-                hashMap.put("name", date);
-                hashMap.put("age", bmi);
+                hashMap.put("bmidate", date);
+                hashMap.put("bmivalue", bmi);
               FirebaseDatabase.getInstance().getReference().child("vendor1").push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                   @Override
                   public void onComplete(@NonNull Task<Void> task) {
@@ -120,7 +120,7 @@ public class BmiEntryActivity extends AppCompatActivity{
             }
         });
         
-        name.setOnClickListener(new View.OnClickListener() {
+        bmidate.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -139,7 +139,7 @@ public class BmiEntryActivity extends AppCompatActivity{
                         myCalendar.set(Calendar.DAY_OF_MONTH, selectedday);
                         String myFormat = "dd/MM/yy"; //Change as you need
                         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.FRANCE);
-                        name.setText(sdf.format(myCalendar.getTime()));
+                        bmidate.setText(sdf.format(myCalendar.getTime()));
 
                     }
                 }, mYear, mMonth, mDay);
@@ -178,7 +178,7 @@ public class BmiEntryActivity extends AppCompatActivity{
 
             float bmiValue = weightValue / (heightValue * heightValue);
             String bmiText = String.format(Locale.getDefault(), "%.2f", bmiValue);
-            age.setText(bmiText);
+            bmivalue.setText(bmiText);
             updateResultState(bmiValue);
         } catch (NumberFormatException e) {
             Toast.makeText(this, "Enter valid numeric values for weight and height.", Toast.LENGTH_SHORT).show();
@@ -202,8 +202,8 @@ public class BmiEntryActivity extends AppCompatActivity{
     }
 
     private void clearEntryForm() {
-        name.setText("");
-        age.setText("");
+        bmidate.setText("");
+        bmivalue.setText("");
         weight.setText("");
         height.setText("");
         resultCategory.setText("Your category will appear here");
@@ -228,7 +228,6 @@ public class BmiEntryActivity extends AppCompatActivity{
         });
         builder.setNegativeButton("cancel",(DialogInterface.OnClickListener)(dialog,which)->{
             dialog.cancel();
-
         });
         AlertDialog alertDialog=builder.create();
         alertDialog.show();
