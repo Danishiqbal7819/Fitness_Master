@@ -1,7 +1,6 @@
 package com.example.fitnessmaster.ui.home;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -30,10 +28,10 @@ public class HomeFragment extends Fragment {
     ArrayList<Integer> list1=new ArrayList<>();
     ArrayList<Integer> list2=new ArrayList<>();
     ArrayList<Integer> list3=new ArrayList<>();
-    private TextView titleText1,titleText2,titleText3,titleText4,titleText5,titleText6;
+    private TextView titleText1,titleText2,titleText3,titleText4,titleText6;
  private ArrayList<String>imageUrls;
-private ImageView img1,img2,img3,img4,img5,img6;
-    private View card1, card2, card3, card4, card5, card6;
+private ImageView img1,img2,img3,img4,img6;
+    private View card1, card2, card3, card4, card6;
 
 
     StorageReference root;
@@ -55,7 +53,6 @@ private ImageView img1,img2,img3,img4,img5,img6;
         String TitleText2=titleText2.getText().toString().trim();
         String TitleText3=titleText3.getText().toString().trim();
         String TitleText4=titleText4.getText().toString().trim();
-        String TitleText5=titleText5.getText().toString().trim();
         String TitleText6=titleText6.getText().toString().trim();
 
         FirebaseApp.initializeApp(getContext());
@@ -326,21 +323,6 @@ private ImageView img1,img2,img3,img4,img5,img6;
 
             }
         });
-        card5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-   try {
-       String url = "https://www.livofy.com/health/gym-diet-plan/".trim();
-       Intent i = new Intent(Intent.ACTION_VIEW);
-       i.setData(Uri.parse(url));
-       startActivity(i);
-      }
-   catch (Exception e){
-    Toast.makeText(getContext(),"unable to show nutrion"+e,Toast.LENGTH_SHORT).show();
-}
-
-            }
-        });
 
         card6.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -416,19 +398,18 @@ private ImageView img1,img2,img3,img4,img5,img6;
         img2=view.findViewById(R.id.img2);
         img3=view.findViewById(R.id.img3);
         img4=view.findViewById(R.id.img4);
-        img5=view.findViewById(R.id.img5);
+//        img5=view.findViewById(R.id.img5);
         img6=view.findViewById(R.id.img6);
         card1=view.findViewById(R.id.card1);
         card2=view.findViewById(R.id.card2);
         card3=view.findViewById(R.id.card3);
         card4=view.findViewById(R.id.card4);
-        card5=view.findViewById(R.id.card5);
+//        card5=view.findViewById(R.id.card5);
         card6=view.findViewById(R.id.card6);
         titleText1=view.findViewById(R.id.titleText1);
         titleText2=view.findViewById(R.id.titleText2);
         titleText3=view.findViewById(R.id.titleText3);
         titleText4=view.findViewById(R.id.titleText4);
-        titleText5=view.findViewById(R.id.titleText5);
         titleText6=view.findViewById(R.id.titleText6);
         progressBar=view.findViewById(R.id.progress);
 

@@ -35,6 +35,7 @@
             android:layout_margin="16dp"
             android:clickable="true"
             android:focusable="true"
+            android:background="@drawable/bg_home_hero"
             android:fontFamily="cursive"
             android:selectAllOnFocus="true"
             android:text="@string/quote_string1"
