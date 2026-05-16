@@ -44,12 +44,15 @@
             android:exported="true" />
         <activity
             android:name=".BmiEntryActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
             android:exported="true" />
         <activity
             android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
             android:exported="true" />
         <activity
             android:name=".Register"
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
             android:exported="true" />
     </application>
 

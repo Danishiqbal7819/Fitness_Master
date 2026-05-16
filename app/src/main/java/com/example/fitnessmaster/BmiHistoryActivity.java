@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-public class BmiHistoryActivity extends AppCompatActivity {
+public class BmiHistoryActivity extends AppCompatActivity implements BmiHistoryAdapter.OnItemDeleteListener {
     private ListView list;
 //    private ProgressBar progressBar;
     private Toolbar toolbar;
@@ -46,7 +46,7 @@ public class BmiHistoryActivity extends AppCompatActivity {
 
 //        progressBar.setVisibility(View.VISIBLE);
         arrayList = new ArrayList<>();
-        adapter = new BmiHistoryAdapter(BmiHistoryActivity.this, arrayList,db);
+        adapter = new BmiHistoryAdapter(BmiHistoryActivity.this, arrayList,db,this);
         list.setAdapter(adapter);
 //        FirebaseDatabase.getInstance().getReference().child("vendor1").addValueEventListener(new ValueEventListener() {
 //            @Override
@@ -114,5 +114,10 @@ catch (Exception e){
         list.setVisibility(View.VISIBLE);
         latestEntry.setText(entries.get(0).getBmivalue());
     }
+
+    @Override
+    public void onItemDelete(int position) {
+        updateSummary(arrayList);
     }
+}
 

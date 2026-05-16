@@ -19,19 +19,23 @@ import java.util.Locale;
 import java.util.concurrent.Executors;
 
 public class BmiHistoryAdapter extends BaseAdapter {
-    public interface OnDeleteClickListener {
-        void onDelete(BmiEntry entry);
-    }
+
 
     private final LayoutInflater inflater;
     private final List<BmiEntry> entries;
  private BmiDao mydb;
  Context context;
-    public BmiHistoryAdapter(Context context, List<BmiEntry> entries, BmiDao db) {
+ OnItemDeleteListener listener;
+
+    public interface OnItemDeleteListener{
+        void onItemDelete(int position);
+    }
+    public BmiHistoryAdapter(Context context, List<BmiEntry> entries, BmiDao db,OnItemDeleteListener  listener) {
         this.inflater = LayoutInflater.from(context);
         this.entries = entries;
         this.mydb=db;
         this.context=context;
+        this.listener=listener;
     }
 
     @Override
@@ -89,7 +93,7 @@ public class BmiHistoryAdapter extends BaseAdapter {
                     entries.remove(position);
 
                     notifyDataSetChanged();
-
+                    listener.onItemDelete(position);
                     Toast.makeText(context,
                             "Deleted successfully",
                             Toast.LENGTH_SHORT).show();
