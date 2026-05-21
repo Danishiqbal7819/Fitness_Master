@@ -21,15 +21,17 @@ This project is built to provide users with an easy-to-use platform for maintain
 
 ## 📱 Screenshots
 
-_Add your app screenshots here_
+<p align="center">
+  <img src="image1.jpg" alt="Home Screen" width="250" height="540"/>
+  <img src="image2.jpg" alt="Workout Screen" width="250" height="540"/>
+  <img src="image3.jpg" alt="Progress Screen" width="250" height="540"/>
+</p>
 
-Example:
-
-![Home Screen](screenshots/home.png)
-
-![Workout Screen](screenshots/workout.png)
-
-![Progress Screen](screenshots/progress.png)
+<p align="center">
+  <img src="image4.jpg" alt="Profile Screen" width="250" height="540"/>
+  <img src="image5.jpg" alt="Analytics Screen" width="250" height="540"/>
+  <img src="image6.jpg" alt="Settings Screen" width="250" height="540"/>
+</p>
 
 ---
 
